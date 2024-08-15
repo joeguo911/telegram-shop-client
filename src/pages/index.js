@@ -1,11 +1,23 @@
 import Head from "next/head";
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
-
+import { useState, useEffect } from "react";
+import styles from "./page.module.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const [link, setLink] = useState();
+
+  useEffect(() => {
+    const fetchLink = async () => {
+      const response = await fetch("http://localhost:3030/buy-loaf");
+      const data = await response.json();
+      setLink(data.data);
+    };
+
+    fetchLink();
+  }, []);
+
   return (
     <>
       <Head>
@@ -14,99 +26,58 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.js</code>
-          </p>
+      <main className={styles.main}>
+        <div className={styles.center}>
+          <div>
+            <Image
+              className={styles.logo}
+              src="/loaf.png"
+              alt="loaf Logo"
+              width={180}
+              height={180}
+              priority
+            />
+          </div>
           <div>
             <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
+              href="https://t.me/$FkuCNp286FXQAQAAuCZqxn709_4"
+              className={styles.card}
               target="_blank"
               rel="noopener noreferrer"
             >
-              By{" "}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
+              <h2>
+                Buy <span>-&gt;</span>
+              </h2>
             </a>
           </div>
         </div>
 
         <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
+          <div>
+            <Image
+              className={styles.logo}
+              src="/toast-icon.svg"
+              alt="toast icon"
+              width={180}
+              height={180}
+              priority
+            />
+          </div>
+          {link}
+          <div>
+            {link && (
+              <a
+                href={link}
+                className={styles.card}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <h2>
+                  Buy <span>-&gt;</span>
+                </h2>
+              </a>
+            )}
+          </div>
         </div>
       </main>
     </>
